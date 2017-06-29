@@ -1,0 +1,7 @@
+before_script:
+  - apt-get update -y
+  - apt-get install clisp
+
+test:
+  script:
+    - clisp main.lisp
