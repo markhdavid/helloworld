@@ -1,6 +1,6 @@
 before_script:
   - apt-get update -y
-  - apt-get install sbcl 
+  - apt-get install -y sbcl 
 
 test:
   script:
