@@ -10,10 +10,15 @@ before_script:
   - bzip2 -dc acl100-linux-x64.bz2 | (cd /usr/local ; tar xf -)
   - echo $DEVEL_LIC > $ACL_HOME/devel.lic
 
-build:
-  script:
-    - $ACL_HOME/mlisp --batch -L load.lisp
+
+# Only need one phase for now: test
+# Why no build phase? test includes build, and build output is not cached.
+# Saving build output for test is possible but outside current scope.
+ 
+stages:
+  - test
 
 test:
+  stage: test
   script:
-    - $ACL_HOME/mlisp --batch -L main.lisp
+    - $ACL_HOME/mlisp --batch -L test.lisp
