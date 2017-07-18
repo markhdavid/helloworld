@@ -12,8 +12,8 @@ before_script:
 
 build:
   script:
-    - $ACL_HOME/mlisp -L load.lisp
+    - $ACL_HOME/mlisp --batch -L load.lisp
 
 test:
   script:
-    - $ACL_HOME/mlisp -L main.lisp
+    - $ACL_HOME/mlisp --batch -L main.lisp
