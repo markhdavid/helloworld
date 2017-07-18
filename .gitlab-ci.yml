@@ -7,8 +7,12 @@ variables:
 before_script:
   - apt-get update -qq && apt-get install -qq curl
   - curl -s -O https://franz.com/support/10.0/download/entpro/dist/linuxamd64.64/acl100-linux-x64.bz2
-  - bzip2 -dc acl100-linux-x64.bz2 | (cd /usr/local ; tar xf - )
+  - bzip2 -dc acl100-linux-x64.bz2 | (cd /usr/local ; tar xf -)
   - echo $DEVEL_LIC > $ACL_HOME/devel.lic
+
+build:
+  script:
+    - $ACL_HOME/mlisp -L load.lisp
 
 test:
   script:
