@@ -1,15 +1,15 @@
 image: ubuntu:14.04
 
 variables:
+  ACL_HOME: "/usr/local/acl100.64"
   DEBIAN_FRONTEND: "noninteractive"
 
 before_script:
-  - apt-get update -qq
-  - apt-get install -qq curl
+  - apt-get update -qq && apt-get install -qq curl
   - curl -s -O https://franz.com/support/10.0/download/entpro/dist/linuxamd64.64/acl100-linux-x64.bz2
   - bzip2 -dc acl100-linux-x64.bz2 | (cd /usr/local ; tar xf - )
-  - echo $DEVEL_LIC > /usr/local/acl100.64/devel.lic
+  - echo $DEVEL_LIC > $ACL_HOME/devel.lic
 
 test:
   script:
-    - /usr/local/acl100.64/mlisp -L main.lisp
+    - $ACL_HOME/mlisp -L main.lisp
