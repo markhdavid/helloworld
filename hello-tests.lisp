@@ -40,22 +40,30 @@
 ;;; Here, we set up to take notice of unit-test failures.
 
 (defun hello-world-test-listener
-    (passed &rest additional-test-listener-args)
+    (passed type name form expected actual extras test-count pass-count)
   "This is a very bare-bones lisp-unit test-listener function. In case
 of success, it has no side effects and simply returns nil. In case of
 failure, it prints its args, sets the special variable
-cl-user:*hello-world-unit-tests-failure-p* to signal that a failure
-has happened, and returns nil."
+*hello-world-unit-tests-failure-p* to signal that a failure has
+happened, and returns nil."
+  (declare (special *hello-world-unit-tests-failure-p*))
   (unless passed
-    (setq cl-user:*hello-world-unit-tests-failure-p* t)
-    (apply #'lisp-unit::default-listener passed additional-test-listener-args)))
+    (setq *hello-world-unit-tests-failure-p* t)
+    (format t "~%Tests have failed.
+  [passed = ~s; type = ~s; name = ~s;
+  exected = ~s; 
+   actual = ~s;
+  extras = ~s; test-count = ~s; pass-count = ~s]~%"
+            passed type name form 
+            expected actual
+            extras test-count pass-count)))
 
 ;; In the big picture, the main reason for needing this to communicate
 ;; back to the top-level caller that a failure happened, so that a
 ;; failure result can returned to the CI system. Downside is that you
 ;; lose the printer for a failure. The output functions are not
-;; exported. Gross. Sigh. For now: use unexported function name, which
-;; is not clean! Later, we will fork the source to export the symbol.
+;; exported. Gross. Sigh. Hint: run (lisp-unit:run-all-tests
+;; :hello-tests) [or whatever] without the wrapper to get the export.
 
 
 
